@@ -3,17 +3,11 @@ const prisma = new PrismaClient()
 const bcrypt = require('bcryptjs');
 const {validationResult} = require("express-validator");
 const jwt = require("jsonwebtoken");
-const {secret} = require("./jwt_key");
+const generateToken = require("./middlewaries/JWT/generateToken.js");
 // const CRUD = require('./CRUDgenerates') 
 
 
-const generateToken = (id, email) =>  {
-  const payload = {
-    id: id,
-    email: email
-  }
-  return jwt.sign(payload, secret, {expiresIn: '12h'});
-}
+
 
 class authController {
 
@@ -64,9 +58,10 @@ async login (req, res) {
         email: email
       },
     });
+
     if (!person) {
       return res.status(400).json({message: `Пользователь ${email} не зарегистрирован!`})
-    }
+    };
     console.log("PERSON",person.password)
     const validPersonPass =  bcrypt.compareSync(password, person.password);
     if (!validPersonPass) {
@@ -87,7 +82,7 @@ async login (req, res) {
 
 async getUsers (req, res) {
   try {
-    res.json('server has work')
+    res.json('server work`s')
 
   } catch (e) {
     console.log(e)
