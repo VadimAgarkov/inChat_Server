@@ -12,12 +12,40 @@ datasource db {
 
 
 model users {
-  id              Int         @id @default(autoincrement())
-  email           String      @unique
-  fullName        String
-  bithday         String?
-  password        String 
-  role            Role        @default(USER)
+  id                              Int               @id @default(autoincrement())
+  email                           String            @unique
+  fullName                        String
+  bithday                         String?
+  password                        String 
+  role                            Role              @default(USER)
+  post                            post[]
+  profile                         profile[]
+  token                           tokens[]
+  isActivated                     Boolean           @default(false)
+}
+
+model post {
+  content                         String?
+  post_id                         Int               @unique @id @default(autoincrement())
+  title                           String
+  author                          users             @relation(fields: [author_id], references: [id])
+  author_id                       Int
+}
+
+model profile {
+  id                              Int               @id @default(autoincrement()) @unique
+  info                            String?
+  user                            users             @relation(fields: [user_id], references: [id])
+  user_id                         Int               @unique
+}
+
+
+model tokens {
+  id                              Int               @id @default(autoincrement())
+  user_id                         Int 
+  user                            users             @relation(fields: [user_id], references: [id])
+  access_token                    String   
+  refresh_token                   String  
 }
 
 
