@@ -41,11 +41,11 @@ model profile {
 
 
 model tokens {
-  id                              Int               @id @default(autoincrement())
-  user_id                         Int 
+  id                              Int               @id @default(autoincrement()) @unique
+  user_id                         Int               
   user                            users             @relation(fields: [user_id], references: [id])
-  access_token                    String   
-  refresh_token                   String  
+  access_token                    String?            
+  refresh_token                   String?  
 }
 
 
