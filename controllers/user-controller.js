@@ -1,6 +1,7 @@
 const userService = require('../service/userService.js');
 const getUserIdWith = require('../service/getUserIdWith.js');
 
+
 class UserController {
 
   async Registration(req, res) {
@@ -8,10 +9,8 @@ class UserController {
     try{
       console.log('...istration..........',req.body)
       const {fullName, email, bithday, password} = req.body;
-
       const userData = await userService.Registration(fullName, email, bithday, password);
       res.cookie('refreshToken:', userData, {maxAge: 2592000000, httpOnly : true}); //30 дней срок
-      
       return res.json('user added'), console.log('response');
     } catch(e) {
       console.log(e.error);
@@ -50,9 +49,11 @@ class UserController {
     };
   };
 
-  async (req, res) {
+  async getAllUsers(req, res) {
     try {
-      const { } = req.body;
+      
+      const users = await getUserIdWith.getAll()
+      res.send(users)
     } catch (e) {
       console.log(e)
     };
@@ -60,8 +61,4 @@ class UserController {
 
 };
 
-
-
-
 module.exports = new UserController();
-

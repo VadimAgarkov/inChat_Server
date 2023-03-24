@@ -70,7 +70,7 @@ class userService {
         console.log("Login, validation", check);
       } else {
         const check = await GetFromBD.getByPhone(contact)
-        console.log("Login, validation",check)
+        console.log("Login, validation", check)
         console.log("мыло контакт", contact)
       }
       
@@ -85,6 +85,7 @@ class userService {
     if (checkPassword) {
       const userDto = new UserDto(user)
       const tokens =  TokenService.GenerateToken({...userDto})
+
       return (
       console.log('еебать! я тебя поздравляю ты закончил с этим дерьмом!!!!'),
       user)
