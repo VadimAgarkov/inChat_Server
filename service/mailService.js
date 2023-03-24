@@ -13,4 +13,4 @@ class mailService {
   };
 };
 
-module.export = new mailService();
+module.exports = new mailService();
