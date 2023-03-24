@@ -44,6 +44,35 @@ class Crud {
       console,log(e.error)
     }
   }
+
+  async UpdateUser(user_id, update_fields, select) {
+    console.log('Update the User data...')
+    try {
+      const newData = await prisma.users.update({
+        where : {
+          id : user_id
+        }, 
+        update : update_fields,
+        select : select
+      
+      })
+    } catch(e) {
+
+    }
+  }
+
+  async DeleteUser(user_id) {
+    console.log("delete the user");
+    try{
+      const deleteUser = await prisma.users.delete({
+        where : {
+          id : user_id
+        }
+      })
+    } catch(e) {
+      console.log(e.error)
+    }
+  } 
 }
 
 module.exports = new Crud();

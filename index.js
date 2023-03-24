@@ -24,36 +24,18 @@ app.use(cors())//
 app.use(cookieParser())
 app.use('/', userRouter);
 
-app.post('/login', (req, res) => {
-  const {Email, Password} = req.body;
-
-  
-  console.log('Email:', Email || "no data", 'Password:', Password || "no data") 
-  res.json('dcdcdc');
-});
-
-app.post('/auth', (req, res) => {
-  const {access_token} = req.body;
-
-  
-  console.log('access_token:', access_token) 
-  res.json('dcdcdc');
-});
 
 
 
-io.on('connection', ( socket) => {
+
+io.on('connection', ( socket ) => {
   console.log('user connected', socket.id)
 
-  // socket.on('autentification', (soket) => {
-  //   console.log(' checking token ', soket.cookie);
-  //     socket.emit('time', new Date());
-  // });
 });
 
-// const cookieString = io.request.headers.cookie
 
-server.listen(PORT, ()=>console.log('server work'))
+
+server.listen(PORT, () => console.log('server work'))
 
 
 

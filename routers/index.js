@@ -21,7 +21,7 @@ router.post('/login', [
   check("password", "Пароль пользователя не может быть пустым!").notEmpty(),
 ], UserController.Authorization)
 
-router.get('/all', GetFromBD.getAll)
+router.get('/all', UserController.getAllUsers)
 
 
 

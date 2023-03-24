@@ -53,6 +53,9 @@ class TokenService{
     const findUserWithToken = await prisma.tokens.findUnique({
       where: {
         access_token: accessToken
+      },
+      select : {
+        user_id : true
       }
     })
     return findUserWithToken;

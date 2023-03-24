@@ -5,18 +5,21 @@ class GetFromBD{
 
   async getByToken (token) {
     try
-    {const User = await prisma.tokens.findUnique({
+    {const user_id = await prisma.tokens.findUnique({
       where: {
         access_token: token
       },
       select: {
-        user: true,
-      }
+        user_id : true,
+      },
     });
 
-    return User
-    } catch {
-      throw new Error('')
+    const user = this.getById(user_id)
+
+
+    return user
+    } catch(e) {
+      console.log(e.error)
     }
   };
 
@@ -72,7 +75,7 @@ class GetFromBD{
     return User
   };
 
-  async getById (ID) {
+  async getById(ID) {
     const User = await prisma.users.findUnique({
       where : {
         id : ID
@@ -100,6 +103,7 @@ class GetFromBD{
     try{
       const getAll = await prisma.users.findMany()
       console.log('GET_ALL::', getAll)
+      return getAll
     } catch(e){
       console.log(e)
     }
