@@ -1,15 +1,14 @@
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
+
+const prisma = new PrismaClient();
 
 
 
 class Crud {
-  async CreateUser(fullName, phone, email, bithday, password) {
-    console.log('strating....CreateUser ....CRUD:', fullName, phone, email, bithday, password)
+  async createUser(fullName, phone, email, bithday, password) {
     try {
       const hashPassword = await bcrypt.hash(password, 3)
-      console.log('Crud.CreateUser.hashPassword::', hashPassword)
       const user = await prisma.users.create({
         data: {
           fullName: fullName,
@@ -26,8 +25,7 @@ class Crud {
     }
   }
 
-  async ReadUser(user_id) {
-    console.log('reading the user...', user_id)
+  async readUser(user_id) {
     try {
       const user = await prisma.users.findUniquie({
         where: {
@@ -46,8 +44,7 @@ class Crud {
     }
   }
 
-  async UpdateUser(user_id, update_fields, select) {
-    console.log('Update the User data...')
+  async updateUser(user_id, update_fields, select) {
     try {
       const newData = await prisma.users.update({
         where: {
@@ -55,17 +52,14 @@ class Crud {
         },
         update: update_fields,
         select: select
-
-      })
+      });
     } catch (e) {
 
     }
   }
 
-  async DeleteUser(req, res) {
-    console.log(req.body.id)
-    const usid = req.body.id
-    console.log("delete the user");
+  async deleteUser(req, res) {
+    const usid = req.body.id;
     try {
       const delete_user = await prisma.users.delete({
         where: {
@@ -76,28 +70,24 @@ class Crud {
     } catch (e) {
       console.log(e.error)
     }
-  }
+  };
 
-  async CreateChat(user_1, user_2) {
+  async createChat(user_1, user_2) {
     const create = await prisma.chat.create({
       data: {
         messages: {},
         user_chats: {}
       }
     });
-
     const chat = await prisma.user_chats.create({
       data: {
-        chat_id:  create.id ,
+        chat_id: create.id,
         user_1: user_1,
         user_2: user_2,
       },
     });
-    console.log('newChat::',create)
-    
-    console.log('created chat::newChat::',chat)
     return chat.chat_id
   }
-}
+};
 
 module.exports = new Crud();

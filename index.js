@@ -9,8 +9,6 @@ const io = require('socket.io')(server, {
   },
 });
 
-// const io = require('socket.io').listen(server)
-
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
@@ -32,9 +30,7 @@ const connections = [];
 
 io.sockets.on('connection', function (socket) {
   console.log('connection::', socket.id)
-
   connections.push(socket);
-
   socket.on('disconnect', function (data) {
     console.log('disconnection')
     connections.splice(connections.indexOf(socket), 1)
@@ -44,12 +40,10 @@ io.sockets.on('connection', function (socket) {
 
     io.sockets.emit('add message', { msg: message });
   });
-
   socket.on('get_messages', async (chatId, startIndex, count, callback) => {
     console.log('socket => "get messages", chatId:', chatId, 'startIndex:', startIndex, 'count:', count, 'callback:', callback)
     const messages = await MessageController.getMessages(chatId)
     // пачка сообщений
-
     const newMessages = messages.slice(startIndex, startIndex + count);
     console.log('allMessages befor pagination:', messages)
     console.log('pagination:::', newMessages)

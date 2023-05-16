@@ -5,7 +5,6 @@ class GetFromBD {
 
   async getByToken(token) {
     try {
-      console.log("token accesssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss", token)
       const user_id = await prisma.tokens.findUnique({
         where: {
           access_token: token
@@ -14,9 +13,6 @@ class GetFromBD {
           user_id: true,
         },
       });
-      console.log('getByToken => ID:', user_id)
-
-
       return user_id
     } catch (e) {
       console.log(e.error)
@@ -24,8 +20,6 @@ class GetFromBD {
   };
 
   async getByMail(Email) {
-    console.log('=======================================================================')
-    console.log('getByMail::', Email)
     const Person = await prisma.users.findUnique({
       where: {
         email: Email
@@ -41,16 +35,10 @@ class GetFromBD {
         isActivated: true
       }
     })
-    console.log("result getByMail::", Person)
-    console.log('=======================================================================')
     return Person;
   }
 
-
-
   async getByPhone(Phone) {
-    console.log('=======================================================================')
-    console.log('getByPhone::', Phone)
     const User = await prisma.users.findUnique({
       where: {
         phone: Phone
@@ -66,9 +54,7 @@ class GetFromBD {
         isActivated: true
       }
     })
-    console.log('result getByPhone::', Phone)
-    console.log('=======================================================================')
-    return User
+    return User;
   };
 
   async getById(ID) {
@@ -93,39 +79,27 @@ class GetFromBD {
         token: true,
         isActivated: true
       },
-
-    })
-
-    return User
+    });
+    return User;
   };
 
-
   async getAll() {
-    console.log('щас будет много всего')
     try {
-      const getAll = await prisma.users.findMany()
-      console.log('GET_ALL::', getAll)
-      return getAll
+      const getAll = await prisma.users.findMany();
+      return getAll;
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
 
   async getAllTokens() {
-    console.log('щас будет много всего')
     try {
-      const getAll = await prisma.tokens.findMany()
-      console.log('GET_ALL::', getAll)
-      return getAll
+      const getAll = await prisma.tokens.findMany();
+      return getAll;
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
-
-
-
-
-
-}
+};
 
 module.exports = new GetFromBD();

@@ -5,9 +5,8 @@ const prisma = new PrismaClient()
 class MessageController {
 
   // CRUD
-  async Create(data) {
+  async create(data) {
     const { chat_id, user_id, content} = data;
-    console.log('create message with data:',chat_id, user_id, content)
     const message = await prisma.message.create({
       data: {
         content,
@@ -20,9 +19,7 @@ class MessageController {
     return console.log('Create new Message:::',message), message;
   }; 
 
-  async Read(chat_id) { 
-
-    console.log('chat id find',chat_id)
+  async read(chat_id) { 
     const messages = await prisma.message.findMany({
       where: {
         chat_id: parseInt(chat_id.id)|| chat_id.id,
@@ -39,15 +36,11 @@ class MessageController {
     return messages;
   };
 
-  async Update(req, res) {
-
+  async update(req, res) {
   };
 
-  async Delete(req, res) {
-
+  async delete(req, res) {
   };
-
-
-}
+};
 
 module.exports = new MessageController()
