@@ -1,4 +1,4 @@
-module.exports = class UserDto{
+module.exports = class UserDto {
   email;
   id;
   isActived;
@@ -6,7 +6,9 @@ module.exports = class UserDto{
 
   constructor(user) {
     this.email = user.email;
+    this.id = user.id;
     this.role = 'USER';
+    this.isActived = user.isActived;
   };
 };
 

@@ -5,14 +5,15 @@ const bcrypt = require('bcryptjs');
 
 
 class Crud {
-  async CreateUser(fullName, email, bithday, password) {
-    console.log('strating....CreateUser ....CRUD')
+  async CreateUser(fullName, phone, email, bithday, password) {
+    console.log('strating....CreateUser ....CRUD:', fullName, phone, email, bithday, password)
     try {
       const hashPassword = await bcrypt.hash(password, 3)
       console.log('Crud.CreateUser.hashPassword::', hashPassword)
       const user = await prisma.users.create({
         data: {
-          fullName : fullName,
+          fullName: fullName,
+          phone: phone,
           email: email,
           bithday: bithday,
           password: hashPassword,
@@ -20,28 +21,28 @@ class Crud {
       });
       return user;
 
-    } catch(e) {
+    } catch (e) {
       console.log(e.error)
     }
-  } 
+  }
 
   async ReadUser(user_id) {
     console.log('reading the user...', user_id)
-    try{
+    try {
       const user = await prisma.users.findUniquie({
-        where : {
-          id : user_id
+        where: {
+          id: user_id
         },
-        select : {
-          id : true,
-          email : true,
-          fullName : true,
-          bithday : true,
-          profile : true
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          bithday: true,
+          profile: true
         }
       })
-    } catch(e) {
-      console,log(e.error)
+    } catch (e) {
+      console, log(e.error)
     }
   }
 
@@ -49,30 +50,54 @@ class Crud {
     console.log('Update the User data...')
     try {
       const newData = await prisma.users.update({
-        where : {
-          id : user_id
-        }, 
-        update : update_fields,
-        select : select
-      
+        where: {
+          id: user_id
+        },
+        update: update_fields,
+        select: select
+
       })
-    } catch(e) {
+    } catch (e) {
 
     }
   }
 
-  async DeleteUser(user_id) {
+  async DeleteUser(req, res) {
+    console.log(req.body.id)
+    const usid = req.body.id
     console.log("delete the user");
-    try{
-      const deleteUser = await prisma.users.delete({
-        where : {
-          id : user_id
+    try {
+      const delete_user = await prisma.users.delete({
+        where: {
+          id: usid
         }
       })
-    } catch(e) {
+      return delete_user
+    } catch (e) {
       console.log(e.error)
     }
-  } 
+  }
+
+  async CreateChat(user_1, user_2) {
+    const create = await prisma.chat.create({
+      data: {
+        messages: {},
+        user_chats: {}
+      }
+    });
+
+    const chat = await prisma.user_chats.create({
+      data: {
+        chat_id:  create.id ,
+        user_1: user_1,
+        user_2: user_2,
+      },
+    });
+    console.log('newChat::',create)
+    
+    console.log('created chat::newChat::',chat)
+    return chat.chat_id
+  }
 }
 
 module.exports = new Crud();

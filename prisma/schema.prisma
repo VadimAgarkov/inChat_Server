@@ -11,43 +11,68 @@ datasource db {
 }
 
 
+// ==========================================================================================================
+
 model users {
-  id                              Int               @id @default(autoincrement())
+  id                              Int               @id @default(autoincrement()) @unique
   email                           String            @unique
-  fullName                        String
+  fullName                        String?
+  user_name                       String?           @unique
+  phone                           String            @unique
+  about_me                        String?
   bithday                         String?
+  city                            String?
+  work                            String?
+  music                           String?
+  subscription                    String?
   password                        String 
   role                            Role              @default(USER)
-  post                            post[]
-  profile                         profile[]
-  token                           tokens[]
-  isActivated                     Boolean           @default(false)
+  token                           tokens[] 
+  isActivated                     Boolean           @default(false)  
+  
 }
 
-model post {
-  content                         String?
-  post_id                         Int               @unique @id @default(autoincrement())
-  title                           String
-  author                          users             @relation(fields: [author_id], references: [id])
-  author_id                       Int
+// ==========================================================================================================
+
+
+model chat {
+  id                              Int               @id@unique @default(autoincrement())        
+  createdAt                       DateTime          @default(now())              
+  messages                        message[]
+  user_chats                      user_chats[]
 }
 
-model profile {
-  id                              Int               @id @default(autoincrement()) @unique
-  info                            String?
-  user                            users             @relation(fields: [user_id], references: [id])
-  user_id                         Int               @unique
+model user_chats {
+  chat                            chat              @relation(fields: [chat_id], references: [id])
+  chat_id                         Int               @id @unique
+  user_1                          Int
+  user_2                          Int
 }
 
+
+model message {
+  id                              Int               @id @unique @default(autoincrement())
+  content                         String
+  chat                            chat              @relation(fields: [chat_id], references: [id])
+  chat_id                         Int
+  sender                          Int               
+  date                            DateTime          @default(now())
+  is_read                         Boolean           @default(false)
+}
+
+
+// ==========================================================================================================
 
 model tokens {
-  id                              Int               @id @default(autoincrement()) @unique
-  user_id                         Int               
+  id                              Int               @id @unique @default(autoincrement())
+  user_id                         Int               @unique
   user                            users             @relation(fields: [user_id], references: [id])
-  access_token                    String?            
-  refresh_token                   String?  
+  access_token                    String?           @unique
+  refresh_token                   String?           @unique
 }
 
+
+// ==========================================================================================================
 
 enum Role {
   USER
