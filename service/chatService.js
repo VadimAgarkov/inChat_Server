@@ -26,18 +26,18 @@ class ChatService {
   };
 
   async getChatWithId(id) {
-    const chat = await prisma.chat.findFirst({
-      where: {
-        id: id
-      },
-      select: {
-        id: true,
-        messages: true,
-        user_chats: true,
-      }
-    })
-    return chat;
-  }
+      const chat = await prisma.chat.findFirst({
+        where: {
+          id: id
+        },
+        select: {
+          id: true,
+          messages: true,
+          user_chats: true,
+        }
+      })
+      return chat;
+    }
 };
 
 module.exports = new ChatService();

@@ -16,7 +16,7 @@ class MessageController {
         },
       },
     });
-    return console.log('Create new Message:::',message), message;
+    return message;
   }; 
 
   async read(chat_id) { 

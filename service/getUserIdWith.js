@@ -77,7 +77,8 @@ class GetFromBD {
         password: true,
         role: true,
         token: true,
-        isActivated: true
+        isActivated: true,
+        online : true,
       },
     });
     return User;

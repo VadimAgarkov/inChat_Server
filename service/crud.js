@@ -36,7 +36,8 @@ class Crud {
           email: true,
           fullName: true,
           bithday: true,
-          profile: true
+          profile: true,
+          online: true,
         }
       })
     } catch (e) {

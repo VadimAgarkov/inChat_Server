@@ -37,16 +37,14 @@ class UserController {
       const userData = await userService.login(Email, Password);
       if (userData) {
         res.status(200).json(userData);
-      } else {
-        res.status(304).json('Error Authorization');
       }
     } catch (e) {
+      res.status(304).json('Error Authorization');
       console.log(e);
     };
   };
 
   async getUser(req, res) {
-    console.log(req.body)
     const id = req.body.data.id;
     if (id === null) {
       res.send('try again')
@@ -76,12 +74,16 @@ class UserController {
   };
 
   async getChats(req, res) {
-    const user = await getUserIdWith.getByToken(req.body.data.access_token)
+    const user = await getUserIdWith.getByToken(req?.body?.data?.access_token)
+    if(!user) {
+      const data = res.json(null);
+    return data;
+    }
     const userChats = await prisma.user_chats.findMany({
       where: {
         OR: [
-          { user_1: user.user_id },
-          { user_2: user.user_id },
+          { user_1: user?.user_id },
+          { user_2: user?.user_id },
         ],
       },
       include: {
